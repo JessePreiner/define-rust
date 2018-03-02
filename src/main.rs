@@ -23,15 +23,23 @@ use tokio_core::reactor::Core;
 fn main() {
 	let settings = Settings::new();
 	println!("{:?}", settings);
-	let url = match env::args().nth(1) {
-	  Some(url) => url,
+
+	match settings {
+		Ok(setting) => {
+			println!("Dictionary Endpoint: {}", setting.dictionary_api.endpoint)
+		},
+		Err(_) => println!("Error!"),
+	}
+
+	let word = match env::args().nth(1) {
+		Some(word) => word,
 		None => {
-			println!("Usage: client <url>");
+			println!("Usage: define <words> <to> <define>");
 			return;
 		}
 	};
 
-	let url = url.parse::<hyper::Uri>().unwrap();
+	let url = format!("{}{}", setting.dictionary_api.endpoint, word).parse::<hyper::Uri>().unwrap();
 	let mut core = Core::new().unwrap();
 	let client = Client::configure()
 		.connector(HttpsConnector::new(4, &core.handle()).unwrap())

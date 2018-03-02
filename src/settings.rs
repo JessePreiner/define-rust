@@ -2,16 +2,16 @@ use std::env;
 use config::{ConfigError, Config, File, Environment};
 
 #[derive(Debug, Deserialize)]
-struct DictionaryApi {
-    app_id: String,
-    app_key: String,
-    endpoint: String
+pub struct DictionaryApi {
+    pub app_id: String,
+    pub app_key: String,
+    pub endpoint: String
 }
 
 #[derive(Debug, Deserialize)]
 pub struct Settings {
-    debug: bool,
-    dictionary_api: DictionaryApi,
+    pub debug: bool,
+    pub dictionary_api: DictionaryApi,
 }
 
 impl Settings {
